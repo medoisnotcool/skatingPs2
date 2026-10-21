@@ -1,0 +1,25 @@
+name: Build PS2 ELF
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container: ps2dev/ps2dev:latest
+    steps:
+      - name: Install tools
+        run: apk add --no-cache build-base git
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build skate_park.elf
+        run: make
+
+      - name: Upload ELF
+        uses: actions/upload-artifact@v4
+        with:
+          name: skate_park-elf
+          path: skate_park.elf
