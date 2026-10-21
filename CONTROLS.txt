@@ -1,0 +1,40 @@
+SKATE PARK  -  PS2 homebrew (ps2sdk + gsKit), no audio
+=======================================================
+
+BUILD  (needs the ps2dev toolchain; easiest is Docker)
+  docker run -it --rm -v "$PWD":/src ps2dev/ps2dev:latest sh -c "cd /src && make"
+  -> produces skate_park.elf  (run in PCSX2 or from uLaunchELF / PS2Link on real hardware)
+
+If you already have ps2dev installed locally:  export PS2DEV=... PS2SDK=...  then  make
+
+HONEST STATUS
+  I had no PS2 toolchain in my environment, so I could NOT build the .elf myself.
+  I compiled and ran the whole game logic + renderer on a PC with stub headers
+  (menus, walking, board carry/throw, riding, tricks, grinds, grabs, bails, rebinding all ran),
+  but the real ps2sdk/gsKit calls are written from memory and are untested on a console/emulator.
+  If the build complains about a gsKit/libpad function name, tell me the error and I will fix it.
+  Options are not saved to a memory card (they reset each launch).
+
+CONTROLS (all rebindable except the right-stick flicks)
+  Left stick  move / steer            D-pad L/R  rotate camera       START  pause menu
+  On foot     hold CIRCLE = run (Auto Run option makes running the default)
+              R1 = hold board in hand, R1 again = throw it
+              TRIANGLE = equip board and ride (while riding: step off)
+  Riding      X = push   CIRCLE = brake   SQUARE (hold) = manual   L1 (hold) = carry board in hand
+  Carrying    X = jump with board   SQUARE = flip jump with board   R1 = throw   (release L1 = ride again)
+  In air      left stick = spin   L2 / R2 = grabs (+ right stick up/down = other grabs)
+  Rails       land on one to grind; hold right stick to change grind; flick DOWN>UP to ollie out;
+              left stick keeps the balance bar centred
+
+RIGHT STICK FLICKS (pull one way, then flick; mirrored for Goofy)
+  Down>Up ollie | Down>Up-Left kickflip | Down>Up-Right heelflip | Down>Right BS shove-it | Down>Left FS shove-it
+  Down-Left>Right varial kickflip | Down-Right>Left varial heelflip | Down-Left>Up hardflip | Down-Right>Up inward heelflip
+  Down-Left>Up-Left double kickflip | Down-Right>Up-Right double heelflip | Left>Right impossible
+  Up>Down nollie | Up>Down-Left nollie kickflip | Up>Down-Right nollie heelflip | Up>Right/Left nollie shove-its
+  Half circle: counter-clockwise = 360 flip, clockwise = laser flip
+  Also: 180/360/540 spins, 6 grabs, 50-50 / nosegrind / 5-0 / crooked / smith / boardslide / lipslide / noseslide /
+  tailslide, manuals, fakie riding, wall/box slams and sketchy landings = bail.
+
+OPTIONS MENU
+  Auto Run, Stance (regular/goofy), Camera distance, Camera follow, Flick sensitivity, Invert right stick,
+  Show HUD, and a Controls screen to rebind every button action.
